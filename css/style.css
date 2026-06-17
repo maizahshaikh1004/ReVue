@@ -1,4 +1,19 @@
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+}
 
+.logo{
+    color:#e50914;
+    font-size:3rem;
+}
+
+nav ul{
+    display:flex;
+    gap:20px;
+}
 .dropdown-content {
     display: none;
     position: absolute;
