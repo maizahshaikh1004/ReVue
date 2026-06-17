@@ -1,485 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReVue Review Website</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ReVue — Rate it. Review it. Remember it. The premium movie review platform." />
+  <title>ReVue — Premium Movie Reviews</title>
+
+  <!-- Google Fonts: Bebas Neue (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <!-- Phosphor Icons (lightweight icon library) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body style="background-color: rgb(172, 11, 11); ">
+<body>
 
-    
-    <div id="hero" style=" background-image: url(netfliximg.jpg) ; height: 480px;  ">
-        <header class="navbar">
-            <h1 class="logo">ReVue</h1>
-        
-            <nav>
-                <ul>
-                    <li><a href="#aboutus">About Us</a></li>
-                    <li><a href="#review">Reviews</a></li>
-                    <li><a href="#contact">Contact Us</a></li>
-                </ul>
-            </nav>
-        </header>   
-    
-    <div  class="dropdown" >
-        <button id="genre-button" style="font-size: 25px; color: black;background-color: white; border-radius: 5px; margin-left: 5px;">Genre</button>
-    
-    <div class="dropdown-content" id="genre-dropdown">
-        <a  rel="noopener"  href="#action">Action Movies</a>
-        <a rel="noopener"  href="#romance">Romantic Movies</a>
-        <a rel="noopener"  href="#trending">Trending Movies</a>
-    </div></div>
-    <br>
-    <br>
-    <p style="color: aliceblue;font-size: 50px; text-align: center;">Unlimited movies, TV shows and more. <br>
-    Watch anywhere. Cancel anytime.</p>
-</div>
+  <!-- ═══════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <a href="#" class="navbar__logo" aria-label="ReVue home">
+      Re<span>Vue</span>
+    </a>
 
-<h1 style="text-align: center; background-color: black;color: white; font-size: 50px; font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;">About Us</h1>
-<section id="aboutus" style="background-color:  rgba(108, 14, 14, 0.5) ; height: 450px; margin-left: 18%; margin-top: 30px; width: 800px; border-radius: 10px;">
-    
-    <div id="abtuscontent" >
-    
-    
-    <p style="color: white; font-size: 50px; text-align: center; "><br><br>Stories move us. <br>
-        They make us feel more emotion,<br> see new perspectives,<br>
-        and bring us closer to each other.</p>
+    <ul class="navbar__links" id="navLinks" role="list">
+      <li><a href="#movies" class="nav-link">Movies</a></li>
+      <li><a href="#reviews" class="nav-link">Reviews</a></li>
+      <li><a href="#stats" class="nav-link">Stats</a></li>
+      <li>
+        <a href="#favorites" class="nav-link nav-link--fav" id="navFavLink">
+          <i class="ph ph-heart"></i>
+          Favorites
+          <span class="fav-badge" id="navFavBadge" aria-live="polite">0</span>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Mobile search toggle + hamburger -->
+    <div class="navbar__actions">
+      <button class="btn-icon" id="searchToggleBtn" aria-label="Toggle search" aria-expanded="false">
+        <i class="ph ph-magnifying-glass"></i>
+      </button>
+      <button class="btn-icon navbar__hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-</section>
-<div style="background-color: black"  ><center><h1 id="action" style="color: white; ; height: 60px; margin-top: 15px;font-size: 50px; font-family:'Times New Roman', Times, serif ; ">Action Movies</h1></center></div>
-<section id="actionslideshow">
-    <img class="action carousel-img" src="action1.jpg" alt="action1" style="width: 100%; height: 500px;">
-    <img class="action carousel-img" src="action2.png" alt="action2" style="width: 100%; height: 500px">
-    <img class="action carousel-img" src="mission.png" alt="action3" style="width: 100%; height: 500px">
-    <img class="action carousel-img" src="action4.jpg" alt="action4" style="width: 100%; height: 500px">
+  </nav>
 
-</section>
+  <!-- Expanding search bar (desktop: inline; mobile: fullscreen overlay) -->
+  <div class="search-bar-wrap" id="searchBarWrap" aria-hidden="true">
+    <div class="search-bar">
+      <i class="ph ph-magnifying-glass"></i>
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search movies, genres, directors…"
+        autocomplete="off"
+        aria-label="Search movies"
+      />
+      <button class="btn-icon search-bar__close" id="searchCloseBtn" aria-label="Close search">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>
+    <!-- Live results dropdown -->
+    <div class="search-results" id="searchResults" role="listbox" aria-label="Search results"></div>
+  </div>
 
 
+  <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="hero" id="hero" aria-label="Featured film">
+    <div class="hero__backdrop">
+      <img src="images/headerimg.jpg" alt="" class="hero__bg" role="presentation" />
+      <div class="hero__scrim"></div>
+    </div>
 
-<div>
-<section id="action-movies">
-  <div class="flip-card">
-      <div class="flip-card-inner">
-          <div class="flip-card-front">
-              <img src="jawan.jpg" alt="jawan" style="width:350px;height:350px;">
-          </div>
-          <div class="flip-card-back">
-              <h1>Jawan Movie</h1> 
-              <p>Starring: Shah Rukh Khan</p> 
-              <p>A man is driven by a personal vendetta to rectify the wrongs in society, while keeping a promise made years ago. He comes up against a monstrous outlaw with no fear, who has caused extreme suffering to many.</p>
-          </div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">
+        <i class="ph-fill ph-film-reel"></i>&nbsp; Featured tonight
+      </p>
+      <h1 class="hero__title">Jawan</h1>
+      <div class="hero__meta">
+        <span class="badge badge--year">2023</span>
+        <span class="badge badge--genre">Action · Thriller</span>
+        <span class="badge badge--runtime">
+          <i class="ph ph-clock"></i> 2h 49m
+        </span>
+        <span class="badge badge--rating">
+          <i class="ph-fill ph-star"></i> 8.1
+        </span>
       </div>
-  </div>
-  
-  <div class="flip-card">
-      <div class="flip-card-inner">
-          <div class="flip-card-front">
-              <img src="pathaan.jpg" alt="pathaan" style="width:350px;height:350px;">
-          </div>
-          <div class="flip-card-back">
-              <h1>Pathaan Movie</h1> 
-              <p>Starring: Shah Rukh Khan</p> 
-              <p>"Pathaan" is a 2023 Hindi action thriller where an exiled RAW agent, Pathaan, teams up with an ISI agent to stop a rogue former agent from unleashing a deadly virus on India. Starring Shah Rukh Khan, Deepika Padukone, and John Abraham, it's part of the YRF Spy Universe.</p>
-          </div>
+      <p class="hero__synopsis">
+        A prison warden recruits female inmates to right the wrongs of society, while evading a seasoned cop who is on his tail.
+      </p>
+      <div class="hero__cta">
+        <button class="btn btn--primary" id="heroDetailsBtn" data-movie="jawan" aria-label="View Jawan details">
+          <i class="ph ph-play"></i> View Details
+        </button>
+        <button class="btn btn--ghost" id="heroFavBtn" data-movie="jawan" aria-label="Add Jawan to favorites">
+          <i class="ph ph-heart"></i> Add to Favorites
+        </button>
       </div>
-  </div>
+    </div>
 
-  <div class="flip-card">
-      <div class="flip-card-inner">
-          <div class="flip-card-front">
-              <img src="raone.jpeg" alt="raone" style="width:350px;height:350px;">
-          </div>
-          <div class="flip-card-back">
-              <h1>Ra.One Movie</h1> 
-              <p>Starring: Shah Rukh Khan</p> 
-              <p>"Ra.One" is a 2011 Indian superhero film where a video game villain, Ra.One, escapes into the real world to target Prateek, the son of the game's creator, Shekhar Subramaniam. After Ra.One kills Shekhar, Prateek brings the game's hero, G.One, who resembles his father, to life to defeat Ra.One and protect his family. The film stars Shah Rukh Khan in dual roles, with Arjun Rampal as the antagonist.</p>
-          </div>
-      </div>
-  </div>
+    <!-- Scroll cue -->
+    <div class="hero__scroll-cue" aria-hidden="true">
+      <span>Scroll</span>
+      <i class="ph ph-arrow-down"></i>
+    </div>
+  </section>
 
-  <div class="flip-card">
-      <div class="flip-card-inner">
-          <div class="flip-card-front">
-              <img src="gumraah.jpg" alt="gumraah" style="width:350px;height:350px;">
-          </div>
-          <div class="flip-card-back">
-              <h1>Gumraah Movie</h1> 
-              <p>Starring:Aditya Roy Kapur</p> 
-              <p>Aakash Sardana is brutally murdered on a rainy night, and during the investigation, Inspector Shivani Mathur identifies the killer as Arjun Sehgal, an old rival of her senior, ACP Dhiren Yadav. Arjun is arrested but denies all allegations. Shortly after, a highly intoxicated man named Suraj, who looks exactly like Arjun, is also arrested. Now, Shivani and Dhiren face the challenge of having two lookalike suspects, both of whom deny any involvement in the murder.The murder investigation of a young man takes an unexpected turn when the cops discover that the prime suspect has a lookalike.</p>
-          </div>
-      </div>
-  </div>
 
-  <div class="flip-card">
-      <div class="flip-card-inner">
-          <div class="flip-card-front">
-              <img src="gabbar.jpg" alt="gabbar" style="width:350px;height:350px;">
-          </div>
-          <div class="flip-card-back">
-              <h1>Gabbar Movie</h1> 
-              <p>Starring: Akshay Kumar</p> 
-              <p>Gabbar creates a vigilante military network to eliminate corrupt officials. As pressure mounts on the police to find out who is responsible for the killings, a special investigator is summoned to track them down.</p>
-          </div>
-      </div>
-  </div>
-
-  <div class="flip-card">
-      <div class="flip-card-inner">
-          <div class="flip-card-front">
-              <img src="tiger3.jpg" alt="tiger3" style="width:350px;height:350px;">
-          </div>
-          <div class="flip-card-back">
-              <h1>Tiger 3 Movie</h1> 
-              <p>Starring: Salman Khan</p> 
-              <p>"Tiger 3" is a 2023 Hindi action thriller directed by Maneesh Sharma, starring Salman Khan, Katrina Kaif, and Emraan Hashmi. As the fifth installment in the YRF Spy Universe and a sequel to "Ek Tha Tiger" and "Tiger Zinda Hai," the film follows Tiger and Zoya as they battle Zoya's former mentor, rogue ISI agent Aatish Rehman. Aatish manipulates them to stage a coup against the Pakistani government while pursuing a destructive agenda against India. The story also explores the origins of Tiger and Zoya's connection.</p>
-          </div>
-      </div>
-  </div>
-
-  <div class="flip-card">
-      <div class="flip-card-inner">
-          <div class="flip-card-front">
-              <img src="dhoom3.jpg" alt="dhoom3" style="width:350px;height:350px;">
-          </div>
-          <div class="flip-card-back">
-              <h1>Dhoom 3 Movie</h1> 
-              <p>Starring: Aamir Khan</p> 
-              <p>Sahir, a circus entertainer, robs a corrupt bank in Chicago in order to avenge his father's death. However, his troubles increase when Inspector Jai and Ali suspect him of the robbery.</p>
-          </div>
-      </div>
-  </div>
-
-  <div class="flip-card">
-      <div class="flip-card-inner">
-          <div class="flip-card-front">
-              <img src="ghajini.jpg" alt="ghajini" style="width:350px;height:350px;">
-          </div>
-          <div class="flip-card-back">
-              <h1>Ghajini Movie</h1> 
-              <p>Starring: Aamir Khan</p> 
-              <p>"Ghajini" is a 2008 Hindi action thriller directed by A. R. Murugadoss, starring Aamir Khan, Asin Thottumkal, Jiah Khan, and Pradeep Rawat. A remake of Murugadoss's Tamil film, it follows Sanjay Singhania, a powerful entrepreneur who suffers from anterograde amnesia after a brutal attack on him and his fiancée, Kalpana. The film marks Asin's debut in Hindi cinema and is one of Jiah Khan's final films before her death in 2013.</p>
-          </div>
-      </div>
-  </div>
-
-  <div class="flip-card">
-      <div class="flip-card-inner">
-          <div class="flip-card-front">
-              <img src="endgame.jpg" alt="endgame" style="width:350px;height:350px;">
-          </div>
-          <div class="flip-card-back">
-              <h1>Endgame Movie</h1> 
-              <p>Starring: Robert,Scarlett,Chris Evans, Chris Hemsworth,Mark,Tom Holland</p> 
-              <p>After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.</p>
-          </div>
-      </div>
-  </div>
-
-</section>
-</div>
-
-<div style="background-color: black"  ><center><h1 id="romance" style="color: white; ; height: 60px; margin-top: 15px;font-size: 50px; font-family:'Times New Roman', Times, serif ; ">Romantic Movies</h1></center></div>
-<section id="actionslideshow">
-    <img class="romance carousel-img" src="twilight.jpg" alt="romance1" style="width: 100%; height: 500px;">
-    <img class="romance carousel-img" src="jabwemet.jpg" alt="romance2" style="width: 100%; height: 500px">
-    <img class="romance carousel-img" src="dilchahtahai.jpg" alt="romance3" style="width: 100%; height: 500px">
-    <img class="romance carousel-img" src="kkhh.jpg" alt="romance4" style="width: 100%; height: 500px">
-</section>
-
-<div>
-    <section id="action-movies">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="bawaal.jpg" alt="bawaal" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Bawaal Movie</h1> 
-                    <p>Starring: Varun Dhawan, Janhvi Kapoor</p> 
-                    <p>Ajay Dixit, a narcissistic history teacher in Lucknow, hides his unhappy life behind a façade of respectability. He keeps his intelligent but epileptic wife, Nisha, grounded to protect his image. When Ajay slaps a student, Atul Raghuvanshi, out of frustration, he discovers Atul is the son of a powerful MLA. Fearing retribution, Ajay impulsively plans a trip to significant World War II sites in Europe, taking Nisha along in hopes of resolving their marital issues. This journey transforms their perspectives, offering them profound lessons on life, history, and their relationship.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="partner.jpg" alt="partner" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Partner Movie</h1> 
-                    <p>Starring: Salman Khan, Govinda </p> 
-                    <p>Prem, a Love Guru, helps Bhaskar win over his boss, Priya. Despite using his own simple charm instead of Prem's tactics, Bhaskar succeeds. Meanwhile, Prem falls for Naina, a photojournalist. Misunderstandings arise when Naina believes Prem gave bad advice to a client, but they reconcile after the truth is revealed. In the end, both couples, Bhaskar and Priya, and Prem and Naina, happily marry.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="yeh_jawani_hai_deewani.jpg" alt="yehjawanihaideewani" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Yeh Jawaani Hai Deewani Movie</h1> 
-                    <p>Starring: Ranbir Kapoor, Deepika Padukone</p> 
-                    <p>Naina, a studious girl, yearns for some fun. A chance meeting with an old classmate, Aditi, leads to a trip that changes her life forever. She meets and falls for Bunny, but he has no time for love.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="myfault.jpg" alt="myfault" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>My Fault Movie</h1> 
-                    <p>Starring: Nicole, Gabriel</p> 
-                    <p>Noah has to leave her town, boyfriend and friends behind and move into the mansion of her mother's new rich husband. There she meets Nick, her new stepbrother. They fall madly in love in secret.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="ddlj.jpg" alt="ddlj" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Dilwale Dulhania Le Jaayenge Movie</h1> 
-                    <p>Starring: Shah Rukh Khan, Kajol</p> 
-                    <p>"Dilwale Dulhania Le Jayenge" (DDLJ) is a 1995 Hindi musical romance directed by Aditya Chopra in his debut and produced by Yash Chopra. The film stars Shah Rukh Khan and Kajol as Raj and Simran, two young non-resident Indians who fall in love during a European vacation. When Simran's father insists she marry the man he promised her to, Raj sets out to win her family's approval so they can be together. Filmed in India, London, and Switzerland, DDLJ has become a classic in Indian cinema.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="titanic.jpg" alt="titanic" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Titanic Movie</h1> 
-                    <p>Starring: Leonardo DiCaprio, Kate Winslet</p> 
-                    <p>In 1996, Brock Lovett finds a drawing of a young woman with a diamond in the Titanic wreck. The woman, Rose Dawson Calvert, reveals she’s the person in the drawing and recounts her Titanic experience.In 1912, Rose falls in love with Jack Dawson, a poor artist, despite being engaged to the wealthy but controlling Cal Hockley. As the Titanic sinks, Jack helps Rose survive, but he dies in the cold. Rose is rescued, changes her name to Rose Dawson, and later drops the diamond into the sea. In the end, she reunites with Jack in a vision.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="badrinath.jpg" alt="badrinath" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Badrinath Ki Dulhania Movie</h1> 
-                    <p>Starring: Varun Dhawan, Alia Bhatt</p> 
-                    <p>The entitled son of a wealthy patriarch pursues a driven young woman, but is in for a powerful lesson when she challenges his assumptions about marriage</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="hasee.jpg" alt="haseetohphasee" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Hasee Toh Phasee Movie</h1> 
-                    <p>Starring: Sidhart Malhotra, Parineeti Chopra</p> 
-                    <p>Hasee Toh Phasee follows the story of Nikhil, a struggling businessman who, believing he is in love with Karishma, an actress he is engaged to, has to prove his worth to his father-in-law while grappling with the sudden return of his fiancee's geeky sister, Meeta, who he had an encounter with years ago, throwing all of them into uncharted waters as he gets to know Meeta better.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="ajab.jpg" alt="ajab" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Ajab Prem Ki Gazab Kahani Movie</h1> 
-                    <p>Starring: Ranbir Kapoor, Katrina Kaif</p> 
-                    <p>The wacky adventures of a young man who is willing to sacrifice his own love to insure the happiness of others, even trying to get the girl of his dreams married to the guy of her dreams.</p>
-                </div>
-            </div>
-        </div>
-  
-    </section>
-  </div>
-
-  <div style="background-color: black"  ><center><h1 id="trending" style="color: white; ; height: 60px; margin-top: 20px;font-size: 50px; font-family:'Times New Roman', Times, serif ; ">Trending Movies</h1></center></div>
-<section id="actionslideshow">
-    <img class="trend carousel-img" src="badla.jpg" alt="romance1" style="width: 100%; height: 500px;">
-    <img class="trend carousel-img" src="gaslight.jpg" alt="romance2" style="width: 100%; height: 500px">
-    <img class="trend carousel-img" src="night.jpg" alt="romance3" style="width: 100%; height: 500px">
-    <img class="trend carousel-img" src="lost.jpg" alt="romance4" style="width: 100%; height: 500px">
-
-</section>
-
-<div>
-    <section id="action-movies">
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="breathe.jpg" alt="breathe" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Breathe Into The Shadows Series</h1> 
-                    <p>Starring: Abhishek Bacchan</p> 
-                    <p>Dr. Avinash Sabharwal (Bachchan) finds his 6-year-old daughter Siya kidnapped by a masked man. The kidnapper demands that Sabharwal kills a man in order to get his daughter back. The plot revolves around the lengths Avinash will go to save his daughter.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="special.jpg" alt="special" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Special Ops Series</h1> 
-                    <p>Starring: Kay Kay Menon</p> 
-                    <p>The series follows Himmat Singh (Menon) of the Research and Analysis Wing who finds similar patterns in terrorist attacks and is convinced a single person is behind all the attacks. His task force team of five agents living in various parts of the world aim to catch the mastermind.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="janejaan.jpeg" alt="jaanejaan" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Jaane Jaan Movie</h1> 
-                    <p>Starring: Kareena Kapoor</p> 
-                    <p>When a single mother is caught in a crime investigation, her neighbor — a gifted math teacher — offers to help and a relentless cop digs into the case.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="dunki.jpg" alt="dunki" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Dunki Movie</h1> 
-                    <p>Starring: Shah Rukh Khan</p> 
-                    <p>When his friends in Punjab struggle to clear the immigration process, an ex-soldier guides them on a risky journey to enter the UK without permission.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="thursday.jpg" alt="thursday" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>A Thursday Movie</h1> 
-                    <p>Starring: Yami Gautam</p> 
-                    <p>Naina, a playschool teacher, takes 16 students hostage. Rattling the police and the leaders, her demands send shockwaves through the country.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="drishyam1.jpg" alt="drishyam1" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Drishyam 1 Movie</h1> 
-                    <p>Starring: Ajay Devgn, Tabu</p> 
-                    <p>Desperate measures are taken by a man who tries to save his family from the dark side of the law, after they commit an unexpected crime.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="drishyam2.jpg" alt="drishyam2" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Drishyam 2 Movie</h1> 
-                    <p>Starring: Ajay Devgn, Tabu</p> 
-                    <p>A gripping tale of an investigation and a family which is threatened by it. Will Vijay Salgaonkar be able to protect his family this time?</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="farzi.jpeg" alt="farzi" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Farzi Series</h1> 
-                    <p>Starring: Shahid Kapoor</p> 
-                    <p>An artist who gets pulled into the murky high stakes of a con job and a fiery task force officer on the mission to rid the country of his menaces in a fast-paced, edgy one-of-a-kind thriller.</p>
-                </div>
-            </div>
-        </div>
-  
-        <div class="flip-card">
-            <div class="flip-card-inner">
-                <div class="flip-card-front">
-                    <img src="taaza.jpg" alt="taaza" style="width:350px;height:350px;">
-                </div>
-                <div class="flip-card-back">
-                    <h1>Taaza Khabar Series</h1> 
-                    <p>Starring: Bhuvan Bam</p> 
-                    <p>A Sanitation worker, how he stumbles upon magical powers which leads to a riveting new ride for the man, and how it stirs his humble life.</p>
-                </div>
-            </div>
-        </div>
-  
-    </section>
-  </div>
-
-  <div id="review" class="review-section" >
-    <h2>Leave a Review</h2>
-    <form action="#" method="post" class="review-form">
-        <label for="movie-name">Movie Name</label>
-        <input type="text" id="movie-name" name="movie-name" placeholder="Enter the movie name">
-
-        <label for="user-name">Your Name</label>
-        <input type="text" id="user-name" name="user-name" placeholder="Enter your name">
-
-        <label for="review-text">Your Review</label>
-        <textarea id="review-text" name="review-text" rows="5" placeholder="Share your thoughts on the movie"></textarea>
-
-        <button type="submit">Submit Review</button>
-    </form>
-</div>
-
-<div id="contact" class="contact-section">
-    <h2>Contact Us</h2>
-    <form action="#" method="post" class="contact-form">
-        <label for="name">Your Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter your name">
-
-        <label for="email">Your Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email">
-
-        <label for="subject">Subject</label>
-        <input type="text" id="subject" name="subject" placeholder="Enter the subject">
-
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="5" placeholder="Enter your message"></textarea>
-
-        <button type="submit">Send Message</button>
-    </form>
-</div>
-<footer>
+  <!-- ═══════════════════════════════════════════
+       GENRE FILTER PILLS
+  ═══════════════════════════════════════════ -->
+  <section class="genre-filter" aria-label="Filter by genre">
     <div class="container">
-        <p>&copy; 2024 ReVue. All Rights Reserved.</p>
+      <div class="genre-filter__pills" id="genrePills" role="group" aria-label="Genre filters">
+        <!-- Dynamically populated by script.js -->
+      </div>
     </div>
-</footer>
-<script src="js/script.js"></script>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       MOVIES GRID
+  ═══════════════════════════════════════════ -->
+  <section class="movies-section" id="movies" aria-label="Movie catalogue">
+    <div class="container">
+      <header class="section-header">
+        <h2 class="section-title">
+          <span class="section-title__accent">All</span> Films
+        </h2>
+        <div class="sort-controls" role="group" aria-label="Sort movies">
+          <label for="sortSelect" class="visually-hidden">Sort by</label>
+          <select id="sortSelect" class="sort-select" aria-label="Sort movies by">
+            <option value="default">Sort: Default</option>
+            <option value="rating-desc">Rating: High → Low</option>
+            <option value="rating-asc">Rating: Low → High</option>
+            <option value="year-desc">Year: Newest</option>
+            <option value="year-asc">Year: Oldest</option>
+            <option value="title-az">Title: A → Z</option>
+          </select>
+        </div>
+      </header>
+
+      <!-- Movie cards grid -->
+      <div class="movies-grid" id="moviesGrid" role="list" aria-label="Movie cards">
+        <!-- Dynamically populated by script.js -->
+      </div>
+
+      <!-- No results state -->
+      <div class="empty-state" id="emptyState" hidden aria-live="polite">
+        <i class="ph ph-film-slash"></i>
+        <p>No movies matched your search.</p>
+        <button class="btn btn--ghost btn--sm" id="clearSearchBtn">Clear search</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       FAVORITES SHELF
+  ═══════════════════════════════════════════ -->
+  <section class="favorites-section" id="favorites" aria-label="Your favorites">
+    <div class="container">
+      <header class="section-header">
+        <h2 class="section-title">
+          <span class="section-title__accent">Your</span> Favorites
+        </h2>
+        <button class="btn btn--ghost btn--sm" id="clearFavBtn" aria-label="Clear all favorites">
+          Clear all
+        </button>
+      </header>
+
+      <div class="favorites-grid" id="favoritesGrid" role="list">
+        <!-- Populated by script.js -->
+      </div>
+
+      <div class="empty-state" id="favEmptyState" aria-live="polite">
+        <i class="ph ph-heart-break"></i>
+        <p>Your favorites shelf is empty.<br/>Tap the heart on any film to save it here.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       STATS SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="stats-section" id="stats" aria-label="Platform statistics">
+    <div class="container">
+      <header class="section-header section-header--centered">
+        <h2 class="section-title">
+          By the <span class="section-title__accent">Numbers</span>
+        </h2>
+        <p class="section-subtitle">A snapshot of everything catalogued on ReVue</p>
+      </header>
+
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card" data-stat="totalMovies">
+          <i class="ph-fill ph-film-strip"></i>
+          <p class="stat-card__number" id="statMovies">—</p>
+          <p class="stat-card__label">Films catalogued</p>
+        </div>
+        <div class="stat-card" data-stat="avgRating">
+          <i class="ph-fill ph-star"></i>
+          <p class="stat-card__number" id="statAvgRating">—</p>
+          <p class="stat-card__label">Average rating</p>
+        </div>
+        <div class="stat-card" data-stat="totalReviews">
+          <i class="ph-fill ph-chat-centered-text"></i>
+          <p class="stat-card__number" id="statReviews">—</p>
+          <p class="stat-card__label">User reviews</p>
+        </div>
+        <div class="stat-card" data-stat="totalFavorites">
+          <i class="ph-fill ph-heart"></i>
+          <p class="stat-card__number" id="statFavorites">—</p>
+          <p class="stat-card__label">Total favorites</p>
+        </div>
+        <div class="stat-card" data-stat="topGenre">
+          <i class="ph-fill ph-tag"></i>
+          <p class="stat-card__number stat-card__number--sm" id="statTopGenre">—</p>
+          <p class="stat-card__label">Most loved genre</p>
+        </div>
+        <div class="stat-card" data-stat="topRated">
+          <i class="ph-fill ph-trophy"></i>
+          <p class="stat-card__number stat-card__number--sm" id="statTopRated">—</p>
+          <p class="stat-card__label">Highest rated</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       REVIEWS SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="reviews-section" id="reviews" aria-label="Community reviews">
+    <div class="container">
+      <header class="section-header">
+        <h2 class="section-title">
+          Community <span class="section-title__accent">Reviews</span>
+        </h2>
+      </header>
+
+      <!-- Review submission form -->
+      <div class="review-form-wrap glass">
+        <h3 class="review-form__heading">Write a Review</h3>
+        <div class="review-form" id="reviewForm" novalidate>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="reviewerName">Your name</label>
+              <input type="text" id="reviewerName" placeholder="e.g. Maizah" maxlength="40" autocomplete="name" />
+              <span class="form-error" id="nameError"></span>
+            </div>
+            <div class="form-group">
+              <label for="reviewMovie">Movie</label>
+              <select id="reviewMovie">
+                <option value="" disabled selected>— Select a film —</option>
+                <!-- Populated by script.js -->
+              </select>
+              <span class="form-error" id="movieError"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Your rating</label>
+            <div class="star-picker" id="starPicker" role="radiogroup" aria-label="Rate the movie">
+              <!-- 5 stars rendered by JS -->
+            </div>
+            <span class="form-error" id="ratingError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="reviewText">Review</label>
+            <textarea
+              id="reviewText"
+              placeholder="What did you think? (min 20 characters)"
+              rows="4"
+              maxlength="600"
+            ></textarea>
+            <div class="char-count"><span id="charCount">0</span> / 600</div>
+            <span class="form-error" id="textError"></span>
+          </div>
+
+          <button class="btn btn--primary" id="submitReviewBtn" type="button">
+            <i class="ph ph-paper-plane-tilt"></i> Submit Review
+          </button>
+        </div>
+
+        <!-- Inline success toast -->
+        <div class="form-success" id="formSuccess" hidden>
+          <i class="ph-fill ph-check-circle"></i>
+          <p>Review submitted — thanks!</p>
+        </div>
+      </div>
+
+      <!-- Reviews display -->
+      <div class="reviews-list" id="reviewsList" aria-live="polite">
+        <!-- Populated by script.js -->
+      </div>
+
+      <div class="empty-state" id="reviewsEmptyState" aria-live="polite">
+        <i class="ph ph-chat-centered-dots"></i>
+        <p>No reviews yet. Be the first to write one above.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+
+        <div class="footer__brand">
+          <a href="#" class="navbar__logo footer__logo" aria-label="ReVue home">Re<span>Vue</span></a>
+          <p class="footer__tagline">Rate it. Review it. Remember it.</p>
+          <p class="footer__credit">
+            Built with HTML · CSS · JS &mdash; <a href="https://github.com/" target="_blank" rel="noopener">View on GitHub</a>
+          </p>
+        </div>
+
+        <nav class="footer__links" aria-label="Footer navigation">
+          <h4>Explore</h4>
+          <ul role="list">
+            <li><a href="#movies">All Films</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#favorites">Favorites</a></li>
+            <li><a href="#stats">Stats</a></li>
+          </ul>
+        </nav>
+
+        <div class="footer__genres" aria-label="Browse by genre">
+          <h4>Genres</h4>
+          <ul role="list" id="footerGenres">
+            <!-- Populated by script.js -->
+          </ul>
+        </div>
+
+        <div class="footer__about">
+          <h4>About ReVue</h4>
+          <p>
+            A frontend-only movie review platform showcasing modern vanilla JavaScript architecture,
+            accessible design, and LocalStorage-powered persistence. No frameworks. No backend.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <p>&copy; <span id="footerYear"></span> ReVue. Made for the portfolio.</p>
+        <p class="footer__scroll-top">
+          <a href="#hero" aria-label="Back to top">
+            Back to top <i class="ph ph-arrow-up"></i>
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════
+       MOVIE DETAIL MODAL
+  ═══════════════════════════════════════════ -->
+  <div
+    class="modal-overlay"
+    id="movieModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+    aria-hidden="true"
+  >
+    <div class="modal">
+      <button class="modal__close btn-icon" id="modalCloseBtn" aria-label="Close modal">
+        <i class="ph ph-x"></i>
+      </button>
+
+      <div class="modal__poster-wrap">
+        <img src="" alt="" class="modal__poster" id="modalPoster" />
+        <div class="modal__poster-scrim"></div>
+
+        <div class="modal__poster-meta">
+          <div class="modal__stars" id="modalStars" aria-label="Rating"></div>
+          <span class="modal__imdb-score" id="modalScore"></span>
+        </div>
+      </div>
+
+      <div class="modal__body">
+        <p class="modal__eyebrow" id="modalGenre"></p>
+        <h2 class="modal__title" id="modalTitle"></h2>
+
+        <div class="modal__tags" id="modalTags">
+          <!-- year, runtime, language chips populated by JS -->
+        </div>
+
+        <p class="modal__synopsis" id="modalSynopsis"></p>
+
+        <div class="modal__crew" id="modalCrew">
+          <!-- Director, cast etc populated by JS -->
+        </div>
+
+        <div class="modal__actions">
+          <button class="btn btn--primary btn--sm" id="modalFavBtn">
+            <i class="ph ph-heart"></i> Add to Favorites
+          </button>
+          <a href="#reviews" class="btn btn--ghost btn--sm" id="modalReviewBtn">
+            <i class="ph ph-pencil-simple"></i> Write a Review
+          </a>
+        </div>
+
+        <!-- Reviews for this specific movie -->
+        <div class="modal__reviews">
+          <h3 class="modal__reviews-heading">Reviews for this film</h3>
+          <div id="modalReviewsList"></div>
+          <p class="modal__no-reviews" id="modalNoReviews">No reviews yet for this film.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
